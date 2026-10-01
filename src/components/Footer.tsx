@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Mail, Heart, Shield, FileText, AlertTriangle, HelpCircle, Layers } from 'lucide-react';
+import { Mail, Shield, FileText, AlertTriangle, HelpCircle, Layers } from 'lucide-react';
 import { CATEGORIES } from '../data/categories';
 
 export const Footer: React.FC = () => {
@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
                 className="h-10 w-10 rounded-xl object-contain shadow-sm border border-slate-200 dark:border-slate-700 bg-white"
               />
               <span className="text-xl font-black tracking-tight text-blue-600 dark:text-blue-400">
-                {language === 'bn' ? 'অল ক্যালকুলেটর' : 'ALL CALCULATOR'}
+                {language === 'bn' ? 'অল ক্যালকুলেটর' : 'All Calculator'}
               </span>
             </div>
 
@@ -133,7 +133,7 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Col 4: Legal & Guidelines */}
+          {/* Col 4: Legal & Policy Information */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-100">
               {t.legal}
@@ -149,36 +149,37 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button
-                  onClick={() => navigateTo('/contact')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition"
-                >
-                  {t.navContact}
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={() => navigateTo('/privacy-policy')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1"
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1.5"
                 >
-                  <Shield className="h-3 w-3" />
+                  <Shield className="h-3.5 w-3.5 text-blue-500" />
                   {t.privacyPolicy}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => navigateTo('/terms')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1"
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1.5"
                 >
-                  <FileText className="h-3 w-3" />
+                  <FileText className="h-3.5 w-3.5 text-indigo-500" />
                   {t.termsOfService}
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => navigateTo('/disclaimer')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1"
+                  onClick={() => navigateTo('/contact')}
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1.5"
                 >
-                  <AlertTriangle className="h-3 w-3" />
+                  <Mail className="h-3.5 w-3.5 text-emerald-500" />
+                  {t.navContact}
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => navigateTo('/disclaimer')}
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1.5"
+                >
+                  <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
                   {t.disclaimer}
                 </button>
               </li>
@@ -186,12 +187,58 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom copyright and disclaimer banner */}
-        <div className="mt-12 border-t border-slate-200/80 pt-6 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+        {/* Dedicated Modern Footer Navigation Row */}
+        <div className="mt-12 border-t border-slate-200/80 pt-6 dark:border-slate-800/80">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <nav
+              aria-label="Footer Navigation"
+              className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 sm:gap-x-6 gap-y-2 text-xs font-medium text-slate-600 dark:text-slate-400"
+            >
+              <button
+                onClick={() => navigateTo('/about')}
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition py-0.5"
+              >
+                {t.navAbout}
+              </button>
+              <span className="hidden sm:inline text-slate-300 dark:text-slate-700" aria-hidden="true">•</span>
+              <button
+                onClick={() => navigateTo('/privacy-policy')}
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition py-0.5"
+              >
+                {t.privacyPolicy}
+              </button>
+              <span className="hidden sm:inline text-slate-300 dark:text-slate-700" aria-hidden="true">•</span>
+              <button
+                onClick={() => navigateTo('/terms')}
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition py-0.5"
+              >
+                {t.termsOfService}
+              </button>
+              <span className="hidden sm:inline text-slate-300 dark:text-slate-700" aria-hidden="true">•</span>
+              <button
+                onClick={() => navigateTo('/contact')}
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition py-0.5"
+              >
+                {t.navContact}
+              </button>
+              <span className="hidden sm:inline text-slate-300 dark:text-slate-700" aria-hidden="true">•</span>
+              <button
+                onClick={() => navigateTo('/disclaimer')}
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition py-0.5"
+              >
+                {t.disclaimer}
+              </button>
+            </nav>
+
+            <p className="text-xs text-slate-500 dark:text-slate-400 shrink-0">
+              Developed by MRS Engineers BD
+            </p>
+          </div>
+        </div>
+
+        {/* Bottom copyright banner */}
+        <div className="mt-4 border-t border-slate-100 pt-4 dark:border-slate-800/40 text-center sm:text-left text-xs text-slate-400 dark:text-slate-500">
           <p>© {currentYear} All Calculator. {t.copyright}</p>
-          <p className="flex items-center gap-1">
-            Built with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> for everyone by MRS Engineers BD
-          </p>
         </div>
       </div>
     </footer>
