@@ -46,32 +46,36 @@ export const AdBanner: React.FC<AdBannerProps> = ({ type, className = '' }) => {
 
     container.appendChild(iframe);
 
-    const doc = iframe.contentWindow?.document;
-    if (doc) {
-      doc.open();
-      doc.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <style>
-              body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; overflow: hidden; background: transparent; }
-            </style>
-          </head>
-          <body>
-            <script type="text/javascript">
-              atOptions = {
-                'key' : '${adConfig.key}',
-                'format' : '${adConfig.format}',
-                'height' : ${adConfig.height},
-                'width' : ${adConfig.width},
-                'params' : {}
-              };
-            </script>
-            <script type="text/javascript" src="${adConfig.scriptSrc}"></script>
-          </body>
-        </html>
-      `);
-      doc.close();
+    try {
+      const doc = iframe.contentWindow?.document;
+      if (doc) {
+        doc.open();
+        doc.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <style>
+                body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; overflow: hidden; background: transparent; }
+              </style>
+            </head>
+            <body>
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : '${adConfig.key}',
+                  'format' : '${adConfig.format}',
+                  'height' : ${adConfig.height},
+                  'width' : ${adConfig.width},
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="${adConfig.scriptSrc}"></script>
+            </body>
+          </html>
+        `);
+        doc.close();
+      }
+    } catch {
+      // Graceful fallback if iframe access is restricted by browser policy/extensions
     }
   }, [type]);
 
