@@ -72,14 +72,9 @@ export const Navbar: React.FC = () => {
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-          <div className="flex flex-col">
-            <span className="text-lg font-black tracking-tight text-blue-600 dark:text-blue-400">
-              {language === 'bn' ? 'অল ক্যালকুলেটর' : 'ALL CALCULATOR'}
-            </span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Free • MRS Engineers BD
-            </span>
-          </div>
+          <span className="text-lg font-black tracking-tight text-blue-600 dark:text-blue-400">
+            {language === 'bn' ? 'অল ক্যালকুলেটর' : 'ALL CALCULATOR'}
+          </span>
         </div>
 
         {/* Desktop Navigation Links */}
