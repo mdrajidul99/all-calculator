@@ -1,0 +1,6 @@
+{
+  "name": "All Calculator",
+  "description": "Free online all-in-one calculator platform for math, finance, currency, land measurement, health, construction, education, and daily life tools in English and Bangla.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
