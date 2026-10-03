@@ -644,4 +644,60 @@ export const CALCULATORS: CalculatorMeta[] = [
     },
     keywords: ['density', 'pressure', 'work', 'energy', 'ঘনত্ব', 'চাপ', 'শক্তি'],
   },
+
+  // Text & Number
+  {
+    id: 'letter-to-number',
+    categoryId: 'text-number',
+    name: { en: 'Letter to Number', bn: 'অক্ষর থেকে সংখ্যা' },
+    description: {
+      en: 'Convert alphabet letters and words into numbers (A=1, B=2, ..., Z=26) with word spaces preserved',
+      bn: 'ইংরেজি বর্ণ ও শব্দকে সংখ্যায় রূপান্তর করুন (A=১, B=২, ..., Z=২৬)'
+    },
+    keywords: [
+      'text & number',
+      'text and number',
+      'letter to number',
+      'letters to numbers',
+      'alphabet to number',
+      'word to number',
+      'a to 1',
+      'a=1',
+      'cipher',
+      'text',
+      'number',
+      'টেক্সট ও সংখ্যা',
+      'অক্ষর থেকে সংখ্যা',
+      'বর্ণ থেকে সংখ্যা',
+      'শব্দ থেকে সংখ্যা'
+    ],
+    isPopular: true,
+  },
+  {
+    id: 'number-to-letter',
+    categoryId: 'text-number',
+    name: { en: 'Number to Letter', bn: 'সংখ্যা থেকে অক্ষর' },
+    description: {
+      en: 'Convert numeric sequences (1=A, 2=B, ..., 26=Z) into words and letters with hyphen, space, or comma separators',
+      bn: 'সংখ্যাকে ইংরেজি বর্ণ ও শব্দে রূপান্তর করুন (১=A, ২=B, ..., ২৬=Z)'
+    },
+    keywords: [
+      'text & number',
+      'text and number',
+      'number to letter',
+      'numbers to letters',
+      'number to word',
+      '1 to a',
+      '1=a',
+      'decode',
+      'cipher',
+      'text',
+      'number',
+      'টেক্সট ও সংখ্যা',
+      'সংখ্যা থেকে অক্ষর',
+      'সংখ্যা থেকে বর্ণ',
+      'সংখ্যা থেকে শব্দ'
+    ],
+    isPopular: true,
+  },
 ];

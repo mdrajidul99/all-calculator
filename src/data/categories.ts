@@ -181,4 +181,14 @@ export const CATEGORIES: Category[] = [
     icon: 'Atom',
     color: 'from-cyan-600 to-teal-700',
   },
+  {
+    id: 'text-number',
+    name: { en: 'Text & Number', bn: 'টেক্সট ও সংখ্যা' },
+    description: {
+      en: 'Letter to number, number to letter, and text conversion tools',
+      bn: 'অক্ষর থেকে সংখ্যা, সংখ্যা থেকে অক্ষর এবং টেক্সট রূপান্তর'
+    },
+    icon: 'Type',
+    color: 'from-violet-600 to-indigo-700',
+  },
 ];

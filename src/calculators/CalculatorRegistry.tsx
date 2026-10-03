@@ -37,6 +37,10 @@ import { ProfitMarginMarkupCalculator } from './BusinessCalculators';
 import { DownloadTimeCalculator } from './DigitalCalculators';
 import { RecipeScalingCalculator } from './FoodCookingCalculators';
 import { PhysicsMotionCalculator } from './ScienceCalculators';
+import {
+  LetterToNumberCalculator,
+  NumberToLetterCalculator,
+} from './TextNumberCalculators';
 
 interface CalculatorRegistryProps {
   calculatorId: string;
@@ -178,6 +182,12 @@ export const CalculatorRegistry: React.FC<CalculatorRegistryProps> = ({ calculat
     case 'physics-motion-force':
     case 'density-pressure-work':
       return <PhysicsMotionCalculator />;
+
+    // Text & Number
+    case 'letter-to-number':
+      return <LetterToNumberCalculator />;
+    case 'number-to-letter':
+      return <NumberToLetterCalculator />;
 
     default:
       return <BasicScientificCalc />;

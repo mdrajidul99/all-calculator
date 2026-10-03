@@ -19,6 +19,8 @@ import {
   UtensilsCrossed,
   Atom,
   Layers,
+  Type,
+  Binary,
   LucideIcon,
 } from 'lucide-react';
 
@@ -42,6 +44,8 @@ const ICON_MAP: Record<string, LucideIcon> = {
   UtensilsCrossed,
   Atom,
   Layers,
+  Type,
+  Binary,
 };
 
 export const getCategoryIcon = (iconName: string): LucideIcon => {
