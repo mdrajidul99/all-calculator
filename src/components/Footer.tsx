@@ -2,11 +2,11 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 import { Mail, Shield, FileText, AlertTriangle, HelpCircle, Layers } from 'lucide-react';
 import { CATEGORIES } from '../data/categories';
+import { APP_LOGO } from '../utils/appLogo';
 
 export const Footer: React.FC = () => {
   const { language, navigateTo, t } = useApp();
   const currentYear = new Date().getFullYear();
-  const logoUrl = 'https://pxdrop.online/raw/dauv31q81qec73f6ofi0';
 
   return (
     <footer className="border-t border-slate-200 bg-white pt-12 pb-8 text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 transition-colors">
@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
               className="flex cursor-pointer items-center gap-2.5 transition-transform hover:opacity-90"
             >
               <img
-                src={logoUrl}
+                src={APP_LOGO}
                 alt="All Calculator Logo"
                 className="h-10 w-10 rounded-xl object-contain shadow-sm border border-slate-200 dark:border-slate-700 bg-white"
               />

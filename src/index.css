@@ -17,3 +17,24 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Security & Anti-Scraping Content Protection */
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection inside calculator inputs, textareas and result values */
+input, textarea, [contenteditable="true"], .selectable-text {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}

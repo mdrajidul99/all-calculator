@@ -16,12 +16,13 @@ import {
   Globe2,
   ArrowRight,
 } from 'lucide-react';
+import { APP_LOGO } from '../utils/appLogo';
+import { isAndroidApp } from '../utils/platform';
 
 export const HomePage: React.FC = () => {
   const { language, navigateTo, recentlyUsed, searchQuery, setSearchQuery, t } = useApp();
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('all');
-
-  const logoUrl = 'https://pxdrop.online/raw/dauv31q81qec73f6ofi0';
+  const isAndroid = isAndroidApp();
 
   // Popular calculators
   const popularCalculators = CALCULATORS.filter((c) => c.isPopular);
@@ -55,17 +56,22 @@ export const HomePage: React.FC = () => {
           <div className="mb-6 flex flex-col items-center justify-center">
             <div className="relative mb-3 flex h-20 w-20 items-center justify-center rounded-3xl bg-white p-2 shadow-md border border-slate-200 dark:border-slate-700 dark:bg-slate-900">
               <img
-                src={logoUrl}
+                src={APP_LOGO}
                 alt="All Calculator Official Logo"
                 className="h-full w-full object-contain"
-                onError={(e) => {
-                  (e.target as HTMLElement).style.display = 'none';
-                }}
               />
             </div>
             <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/80 px-3.5 py-1 text-xs font-bold text-blue-700 dark:border-blue-900/60 dark:bg-blue-950/60 dark:text-blue-300">
               <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-              <span>{language === 'bn' ? '১০০% ফ্রি অনলাইন ক্যালকুলেটর প্ল্যাটফর্ম' : '100% Free Online Calculator Hub'}</span>
+              <span>
+                {isAndroid
+                  ? language === 'bn'
+                    ? '১০০% সম্পূর্ণ অফলাইন ও ফ্রি ক্যালকুলেটর'
+                    : '100% Complete Offline & Free Calculator'
+                  : language === 'bn'
+                    ? '১০০% ফ্রি অনলাইন ক্যালকুলেটর প্ল্যাটফর্ম'
+                    : '100% Free Online Calculator Hub'}
+              </span>
             </div>
           </div>
 
@@ -266,7 +272,7 @@ export const HomePage: React.FC = () => {
                   {language === 'bn' ? 'অ্যাকাউন্ট প্রয়োজন নেই' : 'No Login Required'}
                 </h4>
                 <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
-                  {language === 'bn' ? 'ওয়েবসাইটে ঢুকেই সরাসরি ব্যবহার করুন' : 'Instant access without registering'}
+                  {language === 'bn' ? 'অ্যাপ বা প্ল্যাটফর্ম খুলেই সরাসরি ব্যবহার করুন' : 'Instant access without registering'}
                 </p>
               </div>
             </div>

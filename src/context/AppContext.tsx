@@ -155,6 +155,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Search Query
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Native Android Back Button Handler
+  useEffect(() => {
+    (window as any).handleAndroidBack = (): boolean => {
+      // 1. If search input has query, clear it first
+      if (searchQuery.trim().length > 0) {
+        setSearchQuery('');
+        return true;
+      }
+      // 2. From calculator -> return to its category or categories
+      if (currentRoute.startsWith('/calculators/')) {
+        navigateTo('/categories');
+        return true;
+      }
+      // 3. From category subpage -> return to main categories list
+      if (currentRoute.startsWith('/categories/') && currentRoute !== '/categories') {
+        navigateTo('/categories');
+        return true;
+      }
+      // 4. From any other page (popular, favorites, about, etc.) -> return to home
+      if (currentRoute !== '/' && currentRoute !== '') {
+        navigateTo('/');
+        return true;
+      }
+      // 5. At home page root: return false so native Android exits or minimizes app
+      return false;
+    };
+
+    return () => {
+      delete (window as any).handleAndroidBack;
+    };
+  }, [currentRoute, searchQuery, navigateTo]);
+
   const t = useMemo(() => TRANSLATIONS[language], [language]);
 
   return (

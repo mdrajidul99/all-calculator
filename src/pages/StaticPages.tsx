@@ -13,10 +13,10 @@ import {
   Copy,
   ExternalLink,
 } from 'lucide-react';
+import { APP_LOGO } from '../utils/appLogo';
 
 export const AboutPage: React.FC = () => {
   const { language, t } = useApp();
-  const logoUrl = 'https://pxdrop.online/raw/dauv31q81qec73f6ofi0';
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
@@ -25,15 +25,20 @@ export const AboutPage: React.FC = () => {
       <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-10 shadow-xs dark:border-slate-800 dark:bg-slate-900">
         <div className="flex items-center gap-4 mb-6">
           <img
-            src={logoUrl}
+            src={APP_LOGO}
             alt="All Calculator Logo"
-            className="h-16 w-16 rounded-2xl object-contain border border-slate-200 dark:border-slate-700 bg-white p-1"
+            className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl object-contain border border-slate-200 dark:border-slate-700 bg-white p-1 shadow-sm shrink-0"
           />
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-slate-100">
-              {language === 'bn' ? 'অল ক্যালকুলেটর সম্পর্কে' : 'About All Calculator'}
-            </h1>
-            <p className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-slate-100">
+                {language === 'bn' ? 'অল ক্যালকুলেটর সম্পর্কে' : 'About All Calculator'}
+              </h1>
+              <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                v1.0.0
+              </span>
+            </div>
+            <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-0.5">
               Developed by MRS Engineers BD
             </p>
           </div>
@@ -43,7 +48,7 @@ export const AboutPage: React.FC = () => {
           <p>
             {language === 'bn'
               ? 'অল ক্যালকুলেটর (All Calculator) হলো দৈনন্দিন জীবন, শিক্ষা, ব্যবসা, ব্যাংকিং ও অর্থায়ন, জমি পরিমাপ, স্বাস্থ্য, জ্বালানি এবং প্রকৌশল সংক্রান্ত জটিল হিসাব-নিকাশকে সহজ ও গতিশীল করার একটি সর্বজনীন প্ল্যাটফর্ম।'
-              : 'All Calculator is a universal, modern, and high-performance online calculation portal designed to make everyday arithmetic, financial planning, land surveying, currency conversion, health tracking, and engineering estimations effortless.'}
+              : 'All Calculator is a universal, modern, and high-performance calculation platform designed to make everyday arithmetic, financial planning, land surveying, currency conversion, health tracking, and engineering estimations effortless.'}
           </p>
 
           <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 pt-2">
@@ -51,8 +56,8 @@ export const AboutPage: React.FC = () => {
           </h3>
           <p>
             {language === 'bn'
-              ? 'আমরা বিশ্বাস করি প্রয়োজনীয় গাণিতিক ও ব্যবহারিক সরঞ্জাম সবার জন্য উন্মুক্ত ও বাধাহীন হওয়া উচিত। তাই অল ক্যালকুলেটরে কোনো অ্যাকাউন্ট খোলা, পাসওয়ার্ড মনে রাখা বা নিবন্ধন করার কোনো বাধ্যবাধকতা নেই। যে কেউ ওয়েবসাইট খুলে নিমেষেই কাঙ্ক্ষিত ক্যালকুলেটরটি ব্যবহার করতে পারবেন।'
-              : 'We believe practical calculation tools should be universally accessible without friction. All Calculator never requires registration, sign-up, subscriptions, or invasive personal information. Simply open the website and compute what you need immediately.'}
+              ? 'আমরা বিশ্বাস করি প্রয়োজনীয় গাণিতিক ও ব্যবহারিক সরঞ্জাম সবার জন্য উন্মুক্ত ও বাধাহীন হওয়া উচিত। তাই অল ক্যালকুলেটরে কোনো অ্যাকাউন্ট খোলা, পাসওয়ার্ড মনে রাখা বা নিবন্ধন করার কোনো বাধ্যবাধকতা নেই। যে কেউ অ্যাপ্লিকেশন খুলে নিমেষেই কাঙ্ক্ষিত ক্যালকুলেটরটি ব্যবহার করতে পারবেন।'
+              : 'We believe practical calculation tools should be universally accessible without friction. All Calculator never requires registration, sign-up, subscriptions, or invasive personal information. Simply open the app and compute what you need immediately.'}
           </p>
 
           <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 pt-2">
@@ -209,8 +214,8 @@ export const PrivacyPolicyPage: React.FC = () => {
           </h3>
           <p>
             {language === 'bn'
-              ? 'ওয়েবসাইট ব্যবহারের জন্য কোনো অ্যাকাউন্ট সৃষ্টি, লগইন, নাম, ঠিকানা বা মোবাইল নম্বর প্রদানের প্রয়োজন নেই। আপনি ক্যালকুলেটরে যেসব সংখ্যা বা মান ইনপুট দেন, তা আপনার নিজস্ব ব্রাউজারে স্থানীয়ভাবে প্রক্রিয়াকৃত হয় এবং আমাদের কোনো সার্ভারে সংরক্ষণ করা হয় না।'
-              : 'Our website does not require registration or personal identification. Numerical values entered into calculators are calculated directly within your client web browser and are not transmitted to or stored on our servers.'}
+              ? 'ক্যালকুলেটর ব্যবহারের জন্য কোনো অ্যাকাউন্ট সৃষ্টি, লগইন, নাম, ঠিকানা বা মোবাইল নম্বর প্রদানের প্রয়োজন নেই। আপনি ক্যালকুলেটরে যেসব সংখ্যা বা মান ইনপুট দেন, তা আপনার নিজস্ব ডিভাইসে স্থানীয়ভাবে অফলাইনে প্রক্রিয়াকৃত হয় এবং আমাদের কোনো সার্ভারে সংরক্ষণ করা হয় না।'
+              : 'Our application does not require registration or personal identification. Numerical values entered into calculators are calculated locally on your device and are not transmitted to or stored on any server.'}
           </p>
 
           <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 pt-2">
@@ -273,8 +278,8 @@ export const TermsPage: React.FC = () => {
         <div className="prose dark:prose-invert max-w-none text-xs sm:text-sm text-slate-600 dark:text-slate-400 space-y-4 leading-relaxed">
           <p>
             {language === 'bn'
-              ? 'অল ক্যালকুলেটর ওয়েবসাইট পরিদর্শনের জন্য আপনাকে স্বাগতম। এই সাইটটি ব্যবহার করার মাধ্যমে আপনি নিম্নলিখিত সাধারণ শর্তাবলী মেনে নিচ্ছেন বলে গণ্য হবে।'
-              : 'Welcome to All Calculator. By accessing or using this website, you agree to comply with and be bound by the following Terms and Conditions.'}
+              ? 'অল ক্যালকুলেটরে আপনাকে স্বাগতম। এই অ্যাপ্লিকেশন ব্যবহার করার মাধ্যমে আপনি নিম্নলিখিত সাধারণ শর্তাবলী মেনে নিচ্ছেন বলে গণ্য হবে।'
+              : 'Welcome to All Calculator. By accessing or using this application, you agree to comply with and be bound by the following Terms and Conditions.'}
           </p>
 
           <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 pt-2">
@@ -394,11 +399,20 @@ export const ContactPage: React.FC = () => {
         </div>
 
         <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-800/50">
-          <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-            {language === 'bn' ? 'ডেভেলপার প্রতিষ্ঠান' : 'Developer & Engineering'}
-          </div>
-          <div className="mt-1 text-xl font-black text-slate-900 dark:text-slate-100">
-            MRS Engineers BD
+          <div className="flex items-center gap-4 mb-4">
+            <img
+              src={APP_LOGO}
+              alt="All Calculator Logo"
+              className="h-12 w-12 rounded-xl object-contain bg-white p-1 shadow-xs border border-slate-200 dark:border-slate-700"
+            />
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                {language === 'bn' ? 'অফিসিয়াল অ্যাপ্লিকেশন ও ডেভেলপার' : 'Official Application & Developer'}
+              </div>
+              <div className="mt-0.5 text-xl font-black text-slate-900 dark:text-slate-100">
+                MRS Engineers BD
+              </div>
+            </div>
           </div>
 
           <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">

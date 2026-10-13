@@ -8,6 +8,7 @@ import { Breadcrumbs } from '../components/Breadcrumbs';
 import { AdBanner } from '../components/AdBanner';
 import { Search, Layers, ArrowLeft } from 'lucide-react';
 import { getCategoryIcon } from '../utils/iconResolver';
+import { APP_LOGO } from '../utils/appLogo';
 
 interface CategoriesPageProps {
   categoryId?: string;
@@ -121,13 +122,20 @@ export const CategoriesPage: React.FC<CategoriesPageProps> = ({ categoryId }) =>
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <Breadcrumbs items={[{ label: t.navCategories }]} />
 
-      <div className="mb-8">
-        <h1 className="text-3xl font-black text-slate-900 dark:text-slate-100">
-          {t.secCategories}
-        </h1>
-        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-          {t.secCategoriesSubtitle}
-        </p>
+      <div className="mb-8 flex items-center gap-3.5">
+        <img
+          src={APP_LOGO}
+          alt="All Calculator Logo"
+          className="h-12 w-12 rounded-2xl object-contain bg-white p-1 shadow-xs border border-slate-200 dark:border-slate-700 shrink-0"
+        />
+        <div>
+          <h1 className="text-3xl font-black text-slate-900 dark:text-slate-100">
+            {t.secCategories}
+          </h1>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            {t.secCategoriesSubtitle}
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

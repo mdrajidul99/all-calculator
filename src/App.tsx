@@ -16,6 +16,7 @@ import {
 import { CalculatorRegistry } from './calculators/CalculatorRegistry';
 import { CALCULATORS } from './data/calculators';
 import { CATEGORIES } from './data/categories';
+import { isAndroidApp } from './utils/platform';
 
 const MainContent: React.FC = () => {
   const { currentRoute, language } = useApp();
@@ -91,9 +92,13 @@ const MainContent: React.FC = () => {
       }
     }
 
-    document.title =
-      language === 'bn'
-        ? 'অল ক্যালকুলেটর – গণিত, অর্থ, জমি ও স্বাস্থ্যের ফ্রি ক্যালকুলেটর'
+    const isAndroid = isAndroidApp();
+    document.title = isAndroid
+      ? language === 'bn'
+        ? 'অল ক্যালকুলেটর – সম্পূর্ণ অফলাইন ক্যালকুলেটর'
+        : 'All Calculator – Complete Offline Calculators'
+      : language === 'bn'
+        ? 'অল ক্যালকুলেটর – গণিত, অর্থ, জমি ও স্বাস্থ্যের অনলাইন ক্যালকুলেটর'
         : 'All Calculator – Free Online Calculators for Math, Finance, Land, Health & More';
   }, [currentRoute, language]);
 

@@ -10,6 +10,14 @@ export const AdBanner: React.FC<AdBannerProps> = ({ type, className = '' }) => {
   const { language } = useApp();
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Disable ads completely when running on Android
+  if (
+    import.meta.env.VITE_APP_PLATFORM === 'android' ||
+    (typeof window !== 'undefined' && (window as any).AndroidBridge)
+  ) {
+    return null;
+  }
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;

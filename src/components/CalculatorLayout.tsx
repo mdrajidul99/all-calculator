@@ -5,6 +5,7 @@ import { CATEGORIES } from '../data/categories';
 import { Breadcrumbs } from './Breadcrumbs';
 import { Star, Share2, Check, Info, BookOpen, AlertCircle, Copy } from 'lucide-react';
 import { AdBanner } from './AdBanner';
+import { APP_LOGO } from '../utils/appLogo';
 
 interface CalculatorLayoutProps {
   calculator: CalculatorMeta;
@@ -79,11 +80,18 @@ export const CalculatorLayout: React.FC<CalculatorLayoutProps> = ({
       <div className="mb-6 rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-xs dark:border-slate-800 dark:bg-slate-900 transition-colors">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            {category && (
-              <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                {category.name[language]}
-              </span>
-            )}
+            <div className="flex items-center gap-2 mb-1.5">
+              <img
+                src={APP_LOGO}
+                alt="All Calculator Logo"
+                className="h-5 w-5 rounded-md object-contain border border-slate-200 dark:border-slate-700 bg-white"
+              />
+              {category && (
+                <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                  {category.name[language]}
+                </span>
+              )}
+            </div>
             <h1 className="mt-1 text-2xl sm:text-3xl font-black text-slate-900 dark:text-slate-100">
               {calculator.name[language]}
             </h1>
@@ -199,6 +207,20 @@ export const CalculatorLayout: React.FC<CalculatorLayoutProps> = ({
             {disclaimer[language]}
           </div>
         )}
+
+        {/* Offline Quality Assurance Badge */}
+        <div className="flex items-center justify-center gap-2 pt-2 text-[11px] text-slate-400 dark:text-slate-500">
+          <img
+            src={APP_LOGO}
+            alt="All Calculator"
+            className="h-4 w-4 rounded-sm object-contain opacity-70"
+          />
+          <span>
+            {language === 'bn'
+              ? '১০০% অফলাইন ও নিরাপদ • অল ক্যালকুলেটর (MRS Engineers BD)'
+              : '100% Offline & Private • All Calculator by MRS Engineers BD'}
+          </span>
+        </div>
       </div>
     </div>
   );

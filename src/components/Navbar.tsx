@@ -16,6 +16,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { CALCULATORS } from '../data/calculators';
+import { APP_LOGO } from '../utils/appLogo';
 
 export const Navbar: React.FC = () => {
   const {
@@ -33,8 +34,6 @@ export const Navbar: React.FC = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-
-  const logoUrl = 'https://pxdrop.online/raw/dauv31q81qec73f6ofi0';
 
   const handleNav = (route: string) => {
     navigateTo(route);
@@ -77,13 +76,9 @@ export const Navbar: React.FC = () => {
           className="flex cursor-pointer items-center gap-2 sm:gap-2.5 transition-transform hover:opacity-95 shrink-0"
         >
           <img
-            src={logoUrl}
+            src={APP_LOGO}
             alt="All Calculator Logo"
             className="h-8 w-8 sm:h-9 sm:w-9 rounded-lg object-contain shadow-sm border border-slate-200 dark:border-slate-700 bg-white shrink-0"
-            onError={(e) => {
-              // fallback if network fails
-              (e.target as HTMLElement).style.display = 'none';
-            }}
           />
           <span className="text-base sm:text-lg font-black tracking-tight text-blue-600 dark:text-blue-400 whitespace-nowrap">
             {language === 'bn' ? 'অল ক্যালকুলেটর' : 'All Calculator'}
@@ -288,7 +283,27 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="border-b border-slate-200 bg-white px-4 pt-2 pb-6 dark:border-slate-800 dark:bg-slate-900 md:hidden shadow-lg animate-in slide-in-from-top duration-200">
+        <div className="border-b border-slate-200 bg-white px-4 pt-3 pb-6 dark:border-slate-800 dark:bg-slate-900 md:hidden shadow-lg animate-in slide-in-from-top duration-200">
+          {/* Brand header in drawer */}
+          <div
+            onClick={() => handleNav('/')}
+            className="flex items-center gap-3 p-3 mb-3 rounded-2xl bg-blue-50/80 dark:bg-slate-800/80 border border-blue-100 dark:border-slate-700 cursor-pointer"
+          >
+            <img
+              src={APP_LOGO}
+              alt="All Calculator Logo"
+              className="h-10 w-10 rounded-xl object-contain bg-white p-0.5 shadow-sm border border-slate-200 dark:border-slate-700 shrink-0"
+            />
+            <div>
+              <div className="text-sm font-black text-slate-900 dark:text-white">
+                {language === 'bn' ? 'অল ক্যালকুলেটর' : 'All Calculator'}
+              </div>
+              <div className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold">
+                MRS Engineers BD
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-1">
             <button
               onClick={() => handleNav('/')}

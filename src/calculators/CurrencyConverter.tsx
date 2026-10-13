@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { CalculatorLayout } from '../components/CalculatorLayout';
 import { CALCULATORS } from '../data/calculators';
-import { ArrowLeftRight, RefreshCw, AlertCircle, Clock, Copy, Check } from 'lucide-react';
+import { ArrowLeftRight, RefreshCw, AlertCircle, Clock, Copy, Check, Calculator } from 'lucide-react';
 
 interface CurrencyItem {
   code: string;
@@ -32,6 +32,28 @@ const SUPPORTED_CURRENCIES: CurrencyItem[] = [
   { code: 'TRY', name: { en: 'Turkish Lira', bn: 'তুর্কি লিরা' }, symbol: '₺' },
 ];
 
+const DEFAULT_OFFLINE_RATES: Record<string, number> = {
+  USD: 1.0,
+  USDT: 1.0,
+  BDT: 122.5,
+  INR: 87.2,
+  EUR: 0.95,
+  GBP: 0.81,
+  SAR: 3.75,
+  AED: 3.67,
+  MYR: 4.45,
+  QAR: 3.64,
+  SGD: 1.35,
+  CAD: 1.42,
+  AUD: 1.58,
+  JPY: 154.2,
+  CNY: 7.28,
+  KRW: 1445.0,
+  CHF: 0.89,
+  RUB: 97.5,
+  TRY: 35.2,
+};
+
 export const UniversalCurrencyConverter: React.FC<{ isUsdtSpecific?: boolean }> = ({
   isUsdtSpecific = false,
 }) => {
@@ -44,38 +66,46 @@ export const UniversalCurrencyConverter: React.FC<{ isUsdtSpecific?: boolean }> 
   const [toCurrency, setToCurrency] = useState('BDT');
   const [amount, setAmount] = useState('100');
 
-  const [rates, setRates] = useState<Record<string, number>>({});
-  const [lastUpdated, setLastUpdated] = useState<string>('');
+  const [rates, setRates] = useState<Record<string, number>>(() => {
+    try {
+      const cached = localStorage.getItem('cached_currency_rates');
+      if (cached) {
+        return { ...DEFAULT_OFFLINE_RATES, ...JSON.parse(cached) };
+      }
+    } catch {}
+    return DEFAULT_OFFLINE_RATES;
+  });
+  const [lastUpdated, setLastUpdated] = useState<string>('Standard Offline Reference');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [isOfflineMode, setIsOfflineMode] = useState(false);
   const [customRate, setCustomRate] = useState<string>('');
   const [useCustomRate, setUseCustomRate] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Fetch live exchange rates from public API
+  // Fetch exchange rates if internet available; seamlessly fallback to offline rates
   const fetchLiveRates = async () => {
     setLoading(true);
-    setError(null);
     try {
       const response = await fetch('https://open.er-api.com/v6/latest/USD');
       if (!response.ok) {
-        throw new Error('Failed to fetch currency rates');
+        throw new Error('Offline');
       }
       const data = await response.json();
       if (data && data.rates) {
-        // USDT is pegged 1:1 to USD in base currency
         const updatedRates = {
           ...data.rates,
           USDT: 1.0,
         };
         setRates(updatedRates);
+        setIsOfflineMode(false);
         setLastUpdated(data.time_last_update_utc || new Date().toUTCString());
-      } else {
-        throw new Error('Invalid rate format');
+        try {
+          localStorage.setItem('cached_currency_rates', JSON.stringify(updatedRates));
+        } catch {}
       }
-    } catch (err) {
-      console.warn('Currency API error, providing fallback state:', err);
-      setError(t.rateFetchError);
+    } catch {
+      // Seamlessly keep offline rates active
+      setIsOfflineMode(true);
     } finally {
       setLoading(false);
     }
@@ -181,13 +211,18 @@ export const UniversalCurrencyConverter: React.FC<{ isUsdtSpecific?: boolean }> 
           </button>
         </div>
 
-        {/* Error notification if API failed */}
-        {error && (
-          <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-300">
-            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+        {/* Offline notice if running offline */}
+        {isOfflineMode && (
+          <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-blue-200 bg-blue-50/70 p-3 text-xs text-blue-800 dark:border-blue-900/60 dark:bg-blue-950/30 dark:text-blue-300">
+            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-blue-600 dark:text-blue-400" />
             <div>
-              <span>{error}</span>
+              <span>
+                {language === 'bn'
+                  ? 'অফলাইন স্ট্যান্ডার্ড রেফারেন্স রেট সক্রিয়। প্রয়োজনে কাস্টম বা P2P রেট ব্যবহার করতে পারেন।'
+                  : 'Standard offline reference rate active. You can also specify custom or P2P rates below.'}
+              </span>
               <button
+                type="button"
                 onClick={() => setUseCustomRate(true)}
                 className="ml-2 font-bold underline cursor-pointer"
               >
@@ -208,6 +243,11 @@ export const UniversalCurrencyConverter: React.FC<{ isUsdtSpecific?: boolean }> 
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  (e.target as HTMLElement).blur();
+                }
+              }}
               className="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50 p-2.5 text-base font-bold dark:border-slate-700 dark:bg-slate-800"
             />
           </div>
@@ -284,10 +324,30 @@ export const UniversalCurrencyConverter: React.FC<{ isUsdtSpecific?: boolean }> 
                 placeholder={`1 ${fromCurrency} = ? ${toCurrency}`}
                 value={customRate}
                 onChange={(e) => setCustomRate(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    (e.target as HTMLElement).blur();
+                  }
+                }}
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 p-2 text-xs dark:border-slate-700 dark:bg-slate-800"
               />
             </div>
           )}
+        </div>
+
+        {/* Calculate Action Button */}
+        <div className="mt-5 flex items-center justify-start">
+          <button
+            type="button"
+            onClick={() => {
+              // Recompute or flash feedback
+              computeConverted();
+            }}
+            className="w-full sm:w-auto min-w-[170px] inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-sm hover:bg-blue-700 active:bg-blue-800 transition cursor-pointer"
+          >
+            <Calculator className="h-4 w-4" />
+            <span>{language === 'bn' ? 'হিসাব করুন' : 'Calculate'}</span>
+          </button>
         </div>
 
         {/* Result Display Card */}

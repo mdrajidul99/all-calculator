@@ -7,16 +7,38 @@ import { Copy, Check, RotateCcw, ArrowRight, AlertCircle, Sparkles } from 'lucid
 // Letter to Number Conversion Logic
 export const convertLettersToNumbers = (text: string): string => {
   if (!text) return '';
-  // Preserve spaces, newlines, and convert each contiguous word of letters
-  return text.replace(/[a-zA-Z]+/g, (word) => {
-    return word
-      .split('')
-      .map((ch) => {
-        const code = ch.toUpperCase().charCodeAt(0) - 64;
-        return code >= 1 && code <= 26 ? code.toString() : ch;
-      })
-      .join('-');
-  });
+
+  let result = '';
+  let prevType: 'letter' | 'digit' | 'other' | 'start' = 'start';
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    const isLetter = (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
+    const isDigit = ch >= '0' && ch <= '9';
+
+    if (isLetter) {
+      const code = ch.toUpperCase().charCodeAt(0) - 64; // 1 to 26
+      if (prevType === 'letter' || prevType === 'digit') {
+        result += '-' + code;
+      } else {
+        result += code;
+      }
+      prevType = 'letter';
+    } else if (isDigit) {
+      if (prevType === 'letter') {
+        result += '-' + ch;
+      } else {
+        result += ch;
+      }
+      prevType = 'digit';
+    } else {
+      // Spaces, punctuation, symbols like @, #, $, etc. are preserved
+      result += ch;
+      prevType = 'other';
+    }
+  }
+
+  return result;
 };
 
 // Number to Letter Conversion Result
@@ -38,87 +60,72 @@ export const convertNumbersToLetters = (
       success: false,
       result: '',
       error: isBangla
-        ? 'ভুল ইনপুট: অনুগ্রহ করে সংখ্যা লিখুন'
-        : 'Invalid input: Please enter numbers',
+        ? 'অনুগ্রহ করে সংখ্যা বা টেক্সট লিখুন'
+        : 'Please enter numbers or text',
     };
   }
 
   // Normalize Bengali numerals (০-৯) to Western numerals (0-9)
-  const normalized = trimmed.replace(/[০-৯]/g, (d) =>
+  const normalized = input.replace(/[০-৯]/g, (d) =>
     (d.charCodeAt(0) - 2534).toString()
   );
 
-  // Determine word boundaries:
-  // 1. If explicit slash or pipe exists (e.g. "8-5-12-12-15 / 23-15-18-12-4"), split by slash
-  // 2. If multiple spaces exist (e.g. "1 12 12   23 15 18 12 4"), split by double+ space
-  // 3. If hyphen or comma separates letters and single space separates words ("8-5-12-12-15 23-15-18-12-4")
-  let rawWords: string[] = [];
-
-  if (/[\/|]/.test(normalized)) {
-    rawWords = normalized.split(/\s*[\/|]\s*/);
-  } else if (/[-]\d+/.test(normalized)) {
-    // Contains hyphens linking numbers: words are separated by whitespace or comma between groups
-    rawWords = normalized.split(/\s+/);
-  } else if (/,\s*\d+/.test(normalized) && /\s{2,}/.test(normalized)) {
-    // Comma separated with multi-space word delimiters
-    rawWords = normalized.split(/\s{2,}/);
-  } else if (/\s{2,}/.test(normalized)) {
-    rawWords = normalized.split(/\s{2,}/);
-  } else {
-    // Single word or single group
-    rawWords = [normalized];
-  }
-
-  const convertedWords: string[] = [];
   const breakdown: Array<{ num: number; letter: string }> = [];
+  let fullResult = '';
 
-  for (const wordStr of rawWords) {
-    const cleanWord = wordStr.trim();
-    if (!cleanWord) continue;
+  // Split input into words preserving whitespaces and newlines
+  const words = normalized.split(/(\s+)/);
 
-    // Tokens inside word can be separated by hyphens, commas, or spaces
-    const tokens = cleanWord
-      .split(/[-,\s]+/)
-      .map((t) => t.trim())
-      .filter(Boolean);
-
-    if (tokens.length === 0) continue;
-
-    let wordResult = '';
-    for (const token of tokens) {
-      // Must be an integer
-      if (!/^\d+$/.test(token)) {
-        return {
-          success: false,
-          result: '',
-          error: isBangla
-            ? `ভুল ইনপুট: "${token}" একটি সঠিক সংখ্যা নয়। ১ থেকে ২৬ এর মধ্যবর্তী সংখ্যা দিন।`
-            : `Invalid input: "${token}" is not a valid number. Please enter numbers between 1 and 26.`,
-        };
-      }
-
-      const num = parseInt(token, 10);
-      if (num < 1 || num > 26) {
-        return {
-          success: false,
-          result: '',
-          error: isBangla
-            ? `ভুল ইনপুট: "${token}" একটি অবৈধ সংখ্যা। সংখ্যা অবশ্যই ১ থেকে ২৬ এর মধ্যে হতে হবে (A=১, Z=২৬)।`
-            : `Invalid input: "${token}" is outside the valid 1–26 range. Numbers must be between 1 and 26 (A=1, Z=26).`,
-        };
-      }
-
-      const letter = String.fromCharCode(64 + num);
-      wordResult += letter;
-      breakdown.push({ num, letter });
+  for (const word of words) {
+    if (/^\s+$/.test(word)) {
+      fullResult += word;
+      continue;
     }
 
-    convertedWords.push(wordResult);
+    let wordResult = '';
+    let i = 0;
+
+    while (i < word.length) {
+      const ch = word[i];
+      if (ch >= '0' && ch <= '9') {
+        // Collect contiguous digits
+        let numStr = '';
+        while (i < word.length && word[i] >= '0' && word[i] <= '9') {
+          numStr += word[i];
+          i++;
+        }
+
+        const val = parseInt(numStr, 10);
+        // Only 1..26 are converted to letters A..Z
+        if (val >= 1 && val <= 26) {
+          const letter = String.fromCharCode(64 + val);
+          wordResult += letter;
+          breakdown.push({ num: val, letter });
+        } else {
+          // Numbers > 26 (e.g. 689, 78, 123) were preserved numbers; preserve them
+          wordResult += numStr;
+        }
+
+        // If next character is hyphen or comma separator following a number, consume it
+        if (i < word.length && (word[i] === '-' || word[i] === ',')) {
+          i++;
+        }
+      } else if (ch === '-' || ch === ',') {
+        // Standalone hyphen or comma
+        i++;
+      } else {
+        // Preserve any non-digit character (@, #, $, ., !, ?, etc.)
+        wordResult += ch;
+        i++;
+      }
+    }
+
+    fullResult += wordResult;
   }
 
   return {
     success: true,
-    result: convertedWords.join(' '),
+    result: fullResult,
     breakdown,
   };
 };
@@ -129,8 +136,9 @@ export const LetterToNumberCalculator: React.FC = () => {
   const isBangla = language === 'bn';
   const meta = CALCULATORS.find((c) => c.id === 'letter-to-number')!;
 
-  const [input, setInput] = useState('HELLO WORLD');
-  const [result, setResult] = useState<string>(() => convertLettersToNumbers('HELLO WORLD'));
+  // Default input must be empty so user doesn't have to delete it
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -241,8 +249,8 @@ export const LetterToNumberCalculator: React.FC = () => {
               }}
               placeholder={
                 isBangla
-                  ? 'লেখা লিখুন (যেমন: HELLO WORLD)...'
-                  : 'Enter text (e.g., HELLO WORLD)...'
+                  ? 'লেখা লিখুন (যেমন: ABC, Test689, @Dg78)...'
+                  : 'Enter text (e.g., ABC, Test689, @Dg78)...'
               }
               className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm dark:border-slate-700 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none transition resize-y"
             />
@@ -351,11 +359,9 @@ export const NumberToLetterCalculator: React.FC = () => {
   const isBangla = language === 'bn';
   const meta = CALCULATORS.find((c) => c.id === 'number-to-letter')!;
 
-  const [input, setInput] = useState('8-5-12-12-15 23-15-18-12-4');
-  const [result, setResult] = useState<string>(() => {
-    const res = convertNumbersToLetters('8-5-12-12-15 23-15-18-12-4', false);
-    return res.result;
-  });
+  // Default input must be empty so user doesn't have to delete it
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [breakdown, setBreakdown] = useState<Array<{ num: number; letter: string }>>([]);
@@ -481,8 +487,8 @@ export const NumberToLetterCalculator: React.FC = () => {
               }}
               placeholder={
                 isBangla
-                  ? 'সংখ্যা লিখুন (যেমন: 8-5-12-12-15 23-15-18-12-4)...'
-                  : 'Enter numbers (e.g., 8-5-12-12-15 23-15-18-12-4)...'
+                  ? 'সংখ্যা লিখুন (যেমন: 1-2-3, 20-5-19-20-689, @4-7-78)...'
+                  : 'Enter numbers (e.g., 1-2-3, 20-5-19-20-689, @4-7-78)...'
               }
               className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm dark:border-slate-700 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none transition resize-y font-mono"
             />
