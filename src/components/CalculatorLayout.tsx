@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { CalculatorMeta } from '../types';
 import { CATEGORIES } from '../data/categories';
 import { Breadcrumbs } from './Breadcrumbs';
-import { Star, Share2, Check, Info, BookOpen, AlertCircle, Copy } from 'lucide-react';
+import { Share2, Check, Info, BookOpen, AlertCircle, Copy } from 'lucide-react';
 import { AdBanner } from './AdBanner';
 import { APP_LOGO } from '../utils/appLogo';
 
@@ -28,11 +28,10 @@ export const CalculatorLayout: React.FC<CalculatorLayoutProps> = ({
   notes,
   disclaimer,
 }) => {
-  const { language, isFavorite, toggleFavorite, t } = useApp();
+  const { language, t } = useApp();
   const [copiedShare, setCopiedShare] = useState(false);
 
   const category = CATEGORIES.find((c) => c.id === calculator.categoryId);
-  const favorite = isFavorite(calculator.id);
 
   const handleShare = async () => {
     const url = window.location.href;
@@ -101,20 +100,6 @@ export const CalculatorLayout: React.FC<CalculatorLayoutProps> = ({
           </div>
 
           <div className="flex items-center gap-2 self-start sm:self-auto">
-            <button
-              onClick={() => toggleFavorite(calculator.id)}
-              className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-semibold transition ${
-                favorite
-                  ? 'border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300'
-                  : 'border-slate-200 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'
-              }`}
-            >
-              <Star className={`h-4 w-4 ${favorite ? 'fill-amber-400 text-amber-500' : ''}`} />
-              <span className="hidden sm:inline">
-                {favorite ? t.removeFromFavorites : t.addToFavorites}
-              </span>
-            </button>
-
             <button
               onClick={handleShare}
               className="flex items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 transition"

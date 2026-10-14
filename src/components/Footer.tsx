@@ -79,22 +79,6 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button
-                  onClick={() => navigateTo('/popular')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition"
-                >
-                  {t.navPopular}
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => navigateTo('/favorites')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition"
-                >
-                  {t.navFavorites}
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={() => navigateTo('/how-to-use')}
                   className="hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1"
                 >

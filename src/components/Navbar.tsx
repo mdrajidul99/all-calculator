@@ -6,9 +6,7 @@ import {
   Moon,
   Menu,
   X,
-  Star,
   Layers,
-  Sparkles,
   HelpCircle,
   Home,
   Info,
@@ -24,7 +22,6 @@ export const Navbar: React.FC = () => {
     toggleLanguage,
     theme,
     toggleTheme,
-    favorites,
     navigateTo,
     currentRoute,
     searchQuery,
@@ -109,35 +106,6 @@ export const Navbar: React.FC = () => {
           >
             <Layers className="h-4 w-4" />
             {t.navCategories}
-          </button>
-
-          <button
-            onClick={() => handleNav('/popular')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors ${
-              currentRoute === '/popular'
-                ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 font-semibold'
-                : 'hover:bg-slate-100 dark:hover:bg-slate-800'
-            }`}
-          >
-            <Sparkles className="h-4 w-4 text-amber-500" />
-            {t.navPopular}
-          </button>
-
-          <button
-            onClick={() => handleNav('/favorites')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors relative ${
-              currentRoute === '/favorites'
-                ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 font-semibold'
-                : 'hover:bg-slate-100 dark:hover:bg-slate-800'
-            }`}
-          >
-            <Star className="h-4 w-4 text-yellow-500 fill-yellow-500/20" />
-            {t.navFavorites}
-            {favorites.length > 0 && (
-              <span className="ml-1 rounded-full bg-blue-600 px-1.5 py-0.2 text-[11px] font-bold text-white">
-                {favorites.length}
-              </span>
-            )}
           </button>
 
           <button
@@ -319,29 +287,6 @@ export const Navbar: React.FC = () => {
             >
               <Layers className="h-4 w-4 text-indigo-500" />
               {t.navCategories}
-            </button>
-
-            <button
-              onClick={() => handleNav('/popular')}
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
-            >
-              <Sparkles className="h-4 w-4 text-amber-500" />
-              {t.navPopular}
-            </button>
-
-            <button
-              onClick={() => handleNav('/favorites')}
-              className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
-            >
-              <div className="flex items-center gap-3">
-                <Star className="h-4 w-4 text-yellow-500 fill-yellow-500/20" />
-                {t.navFavorites}
-              </div>
-              {favorites.length > 0 && (
-                <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-bold text-white">
-                  {favorites.length}
-                </span>
-              )}
             </button>
 
             <button

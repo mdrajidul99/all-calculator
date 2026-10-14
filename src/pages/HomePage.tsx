@@ -9,28 +9,17 @@ import {
   Search,
   Sparkles,
   Layers,
-  History,
   CheckCircle2,
   ShieldCheck,
   Zap,
   Globe2,
-  ArrowRight,
 } from 'lucide-react';
 import { APP_LOGO } from '../utils/appLogo';
 import { isAndroidApp } from '../utils/platform';
 
 export const HomePage: React.FC = () => {
-  const { language, navigateTo, recentlyUsed, searchQuery, setSearchQuery, t } = useApp();
-  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('all');
+  const { language, searchQuery, setSearchQuery, t } = useApp();
   const isAndroid = isAndroidApp();
-
-  // Popular calculators
-  const popularCalculators = CALCULATORS.filter((c) => c.isPopular);
-
-  // Recently used calculators
-  const recentCalcs = recentlyUsed
-    .map((id) => CALCULATORS.find((c) => c.id === id))
-    .filter(Boolean) as typeof CALCULATORS;
 
   // Search filter
   const isSearching = searchQuery.trim().length > 0;
@@ -103,24 +92,6 @@ export const HomePage: React.FC = () => {
                 </button>
               )}
             </div>
-
-            {/* Popular quick searches */}
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-              <span className="font-semibold text-slate-400">
-                {language === 'bn' ? 'উদাহরণ:' : 'Quick search:'}
-              </span>
-              {['Age', 'EMI', 'Land', 'USDT', 'BMI', 'Percentage', 'Fuel', 'Concrete'].map(
-                (term) => (
-                  <button
-                    key={term}
-                    onClick={() => setSearchQuery(term)}
-                    className="rounded-lg bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-blue-900/40"
-                  >
-                    {term}
-                  </button>
-                )
-              )}
-            </div>
           </div>
         </div>
       </section>
@@ -164,58 +135,12 @@ export const HomePage: React.FC = () => {
           </section>
         )}
 
-        {/* Recently Used Section (Only shown if user has used calculators) */}
-        {!isSearching && recentCalcs.length > 0 && (
-          <section>
-            <div className="flex items-center gap-2 mb-4">
-              <History className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                {t.secRecentlyUsed}
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {recentCalcs.slice(0, 4).map((calc) => (
-                <CalculatorCard key={calc.id} calculator={calc} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Popular Calculators Section */}
+        {/* Natural & Clean Ad Placement: Centered, visible, and non-intrusive */}
         {!isSearching && (
-          <section>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6">
-              <div>
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-amber-500" />
-                  <h2 className="text-2xl font-black text-slate-900 dark:text-slate-100">
-                    {t.secPopular}
-                  </h2>
-                </div>
-                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                  {t.secPopularSubtitle}
-                </p>
-              </div>
-
-              <button
-                onClick={() => navigateTo('/popular')}
-                className="mt-2 sm:mt-0 inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400"
-              >
-                <span>{t.viewAll}</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {popularCalculators.slice(0, 9).map((calc) => (
-                <CalculatorCard key={calc.id} calculator={calc} />
-              ))}
-            </div>
-          </section>
+          <div className="my-2">
+            <AdBanner type="banner" />
+          </div>
         )}
-
-        {/* Advertisement 1: Responsive Banner Ad */}
-        <AdBanner type="banner" />
 
         {/* Categories Section */}
         {!isSearching && (

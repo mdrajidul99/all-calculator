@@ -4,7 +4,6 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
 import { CategoriesPage } from './pages/CategoriesPage';
-import { PopularPage, FavoritesPage } from './pages/PopularPage';
 import {
   AboutPage,
   HowToUsePage,
@@ -40,14 +39,9 @@ const MainContent: React.FC = () => {
       return <CategoriesPage categoryId={catId || undefined} />;
     }
 
-    // 4. Popular
-    if (currentRoute === '/popular') {
-      return <PopularPage />;
-    }
-
-    // 5. Favorites
-    if (currentRoute === '/favorites') {
-      return <FavoritesPage />;
+    // 4. Fallback for legacy routes
+    if (currentRoute === '/popular' || currentRoute === '/favorites') {
+      return <CategoriesPage />;
     }
 
     // 6. Static informational pages
